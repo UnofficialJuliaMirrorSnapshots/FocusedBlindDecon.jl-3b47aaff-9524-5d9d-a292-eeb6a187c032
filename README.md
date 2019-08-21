@@ -1,10 +1,23 @@
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://pawbz.github.io/FocusedBlindDecon.jl/dev)
+2
+[![Build Status](https://travis-ci.org/pawbz/FocusedBlindDecon.jl.svg?branch=master)](https://travis-ci.org/pawbz/FocusedBlindDecon.jl)
+3
+[![codecov](https://codecov.io/gh/pawbz/FocusedBlindDecon.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/pawbz/FocusedBlindDecon.jl)
+
 # Focused Blind Deconvolution (FBD)
+
+## Attribution
+If you make use of this code, please cite the following paper.
 ```latex
-@article{bharadwaj2018focused,
+@article{bharadwaj2019focused,
   title={Focused blind deconvolution},
   author={Bharadwaj, Pawan and Demanet, Laurent and Fournier, Aim{\'e}},
-  journal={arXiv preprint arXiv:1808.00166},
-  year={2018}
+  journal={IEEE Transactions on Signal Processing},
+  volume={67},
+  number={12},
+  pages={3168--3180},
+  year={2019},
+  publisher={IEEE}
 }
 ```
 
