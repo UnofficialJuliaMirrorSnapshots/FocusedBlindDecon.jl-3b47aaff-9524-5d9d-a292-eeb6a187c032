@@ -1,9 +1,9 @@
 # blind deconvolution
 module FocusedBlindDecon
 
-using Inversion
 using Misfits
-using Signals
+using ProgressMeter
+using Printf
 using Conv
 using Optim
 using LineSearches
@@ -33,8 +33,7 @@ struct UseIterativeSolvers end
 global optG
 global optS
 
-global 
-
+export P_fbd, fbd!, fibd!, fpr!, lsbd!
 
 function __init__(;stf=false, filt=false, sdp=false, optg="iterativesolvers", 
 		  opts=optg)
@@ -78,6 +77,8 @@ end
 
 
 
+include("inversion.jl")
+include("toygreen.jl")
 include("types.jl")
 include("toeplitz.jl")
 include("fpr.jl")
@@ -92,6 +93,7 @@ include("updates.jl")
 include("save.jl")
 include("misc.jl")
 include("plots.jl")
+include("getprop.jl")
 
 
 end # module
@@ -129,7 +131,7 @@ function update_func_grad!(pa; goptim=nothing, soptim=nothing, gαvec=nothing, s
 	end
 	pa.attrib_inv=:g
 	# multi-objective framework
-	paMOg=Inversion.ParamMO(noptim=length(goptim), ninv=length(pa.gx.x), αvec=gαvec,
+	paMOg=ParamMO(noptim=length(goptim), ninv=length(pa.gx.x), αvec=gαvec,
 			    		optim_func=optim_funcg,optim_grad=optim_gradg,
 					x_init=randn(length(pa.gx.x),10))
 	# create dfg for optimization
@@ -153,7 +155,7 @@ function update_func_grad!(pa; goptim=nothing, soptim=nothing, gαvec=nothing, s
 
 	pa.attrib_inv=:s
 	# multi-objective framework
-	paMOs=Inversion.ParamMO(noptim=length(soptim), ninv=length(pa.sx.x), αvec=sαvec,
+	paMOs=ParamMO(noptim=length(soptim), ninv=length(pa.sx.x), αvec=sαvec,
 			    		optim_func=optim_funcs,optim_grad=optim_grads,
 					x_init=vcat(ones(1,10),randn(length(pa.sx.x)-1,10)))
 #	pa.dfs = OnceDifferentiable(x -> paMOs.func(x, paMOs),         
